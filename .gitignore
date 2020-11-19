@@ -1,0 +1,17 @@
+# Cache
+.cache
+
+# Logfiles
+*.log
+
+# Snowpack
+.build
+build
+web_modules
+
+# Parcel
+.parcel-cache
+dist/
+
+# Dependencies
+node_modules
