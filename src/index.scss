@@ -55,7 +55,7 @@ body {
   size: calc(100vmin - 1rem);
   max-width: 512px;
   max-height: 512px;
-  opacity: 0;
+  visibility: hidden;
 }
 
 #profile {

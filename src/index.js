@@ -5,7 +5,8 @@ function per(i, len) {
   return i / (len - 1);
 }
 
-function all() {
+window.addEventListener('load', () => {
+  document.getElementById('container').style.visibility = 'visible';
   anime({
     targets: document.querySelectorAll('#profile img'),
     duration: 850,
@@ -100,15 +101,4 @@ function all() {
           `-=${350}`,
         );
     });
-}
-
-(() => {
-  anime({
-    targets: document.getElementById('container'),
-    duration: 50,
-    opacity: 1,
-    complete: () => {
-      all();
-    },
-  });
-})();
+});
