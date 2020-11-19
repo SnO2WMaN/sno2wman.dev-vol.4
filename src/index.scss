@@ -1,0 +1,189 @@
+@import 'ress/ress.css';
+@import 'node_modules/mathsass/dist/math';
+
+$brandcolors: (
+  'twitter': #1da1f2,
+  'scrapbox': #00b52e,
+  'spotify': #1db954,
+  'pixiv': #009cff,
+  'npm': #cb3837,
+  'codepen': #131417,
+  'lastfm': #d51007,
+  'steam': #1b2838,
+  'github': #24292e,
+  'discord': #7289da,
+  'annict': #f85b73,
+  'speaker-deck': #009287,
+  'zenn': #ebf5ff,
+  'bookmeter': #64bc4b,
+  'soundcloud': #ff8800,
+  'ko-fi': #29abe0,
+  'buymeacoffee': #fcdd05,
+  'mixcloud': #5000ff,
+);
+
+$accent: hsl(177, 79%, 69%);
+$bg: hsl(236, 25%, 5%);
+$text: hsl(hue($bg), 32%, 95%);
+
+$phi: (1 + sqrt(5)) / 2;
+
+@mixin inset-0 {
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+:root {
+  overflow: hidden;
+}
+
+body {
+  width: 100%;
+  height: 100vh;
+  background: $bg;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#container {
+  position: relative;
+  size: calc(100vmin - 1rem);
+  max-width: 512px;
+  max-height: 512px;
+  opacity: 0;
+}
+
+#profile {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  pointer-events: none;
+  position: relative;
+  z-index: 1;
+  & > img {
+    size: 5rem;
+    border-radius: 50%;
+    margin-bottom: 0.5rem;
+  }
+  & > div {
+    position: relative;
+    padding: 0.25rem;
+    overflow: hidden;
+  }
+  p {
+    font-size: 1rem;
+    font-family: 'Press Start 2P', monospace;
+    color: $text;
+    span {
+      display: inline-block;
+    }
+  }
+  .cover {
+    position: absolute;
+    @include inset-0;
+    &:nth-of-type(1) {
+      background-color: $text;
+      z-index: 1;
+    }
+    &:nth-of-type(2) {
+      background-color: $accent;
+      z-index: 2;
+    }
+  }
+}
+
+#social {
+  $size: 40px;
+  $n: 18;
+  $turn: 0turn;
+  position: absolute;
+  @include inset-0;
+  .borders {
+    position: absolute;
+    @include inset-0;
+    & > .border {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 50%;
+      height: 1px;
+      transform-origin: left;
+      & > .fill {
+        position: absolute;
+        height: 100%;
+        width: 50% / $phi;
+        right: ($size * $phi);
+        transform-origin: left;
+        margin: auto;
+      }
+      @for $i from 0 through $n {
+        &:nth-of-type(#{$i}) {
+          transform: rotateZ($i / $n * 1turn + $turn);
+        }
+      }
+      @each $brand, $brandcolor in $brandcolors {
+        &.#{$brand} {
+          & > .fill {
+            background-color: lighten($brandcolor, 5%);
+            box-shadow: 0 0 12px $brandcolor;
+          }
+        }
+      }
+    }
+  }
+  .links {
+    position: absolute;
+    @include inset-0;
+    div {
+      position: absolute;
+      size: $size;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      & > img {
+        position: relative;
+        size: ($size / $phi);
+        z-index: 1;
+      }
+      & > a {
+        border-radius: 50%;
+        position: absolute;
+        @include inset-0;
+        z-index: 20;
+      }
+      & > .cover {
+        border: solid ($size / 2);
+        border-radius: 50%;
+      }
+      @for $i from 0 through $n {
+        &:nth-of-type(#{$i}) {
+          $rad: ($i / $n + $turn / 1turn) * 2 * $PI;
+          left: calc(50% + #{cos($rad)} * (50% - #{$size / 2}) - #{$size / 2});
+          top: calc(50% + #{sin($rad)} * (50% - #{$size / 2}) - #{$size / 2});
+        }
+      }
+      @each $brand, $brandcolor in $brandcolors {
+        &.#{$brand} {
+          & > .cover {
+            &:nth-of-type(1) {
+              border-color: $brandcolor;
+              box-shadow: 0 0 4px $brandcolor;
+            }
+            &:nth-of-type(2) {
+              border-color: darken($brandcolor, 7.5%);
+            }
+          }
+        }
+      }
+    }
+  }
+}
